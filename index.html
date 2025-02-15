@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Dog Facts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0e6ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        h1 {
+            color: #6a5acd; /* Lilac */
+        }
+
+        #factDisplay {
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        button {
+            background-color: #ffd700; /* Gold */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffc107; /* Darker gold on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Dog Facts</h1>
+        <p id="factDisplay">Click the button to get a random dog fact!</p>
+        <button id="factButton">Get a Fact!</button>
+    </div>
+    <script>
+        const dogFacts = [
+            "Dogs are descendants of wolves and were domesticated around 15,000 years ago.",
+            "Dogs have an extraordinary sense of smell, which is 10,000 to 100,000 times more sensitive than humans.",
+            "There are over 340 different dog breeds recognized worldwide.",
+            "Dogs are known for their loyalty and can form strong bonds with their human companions.",
+            "The Basenji dog is known as the 'barkless dog' because it makes a unique sound called a 'barroo' instead of barking.",
+            "Dogs can understand up to 165 words, signs, and signals, and some can even learn more than 200.",
+            "The Labrador Retriever has been the most popular dog breed in the United States for several years.",
+            "Dogs have sweat glands only in their paw pads; they primarily cool off by panting.",
+            "The Greyhound is the fastest dog breed and can reach speeds of up to 45 miles per hour.",
+            "Dogs have been used in various roles, including service animals, therapy animals, and search and rescue dogs."
+        ];
+
+        let attempts = 0;
+
+        const factButton = document.getElementById('factButton');
+        const factDisplay = document.getElementById('factDisplay');
+
+        factButton.addEventListener('click', () => {
+            if (attempts < 3) {
+                attempts++;
+                factDisplay.textContent = "Try to get closer to the button!";
+            } else {
+                const randomIndex = Math.floor(Math.random() * dogFacts.length);
+                factDisplay.textContent = dogFacts[randomIndex];
+            }
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            const buttonRect = factButton.getBoundingClientRect();
+            const buttonX = buttonRect.x + buttonRect.width / 2;
+            const buttonY = buttonRect.y + buttonRect.height / 2;
+            const distance = Math.sqrt((event.clientX - buttonX) ** 2 + (event.clientY - buttonY) ** 2);
+
+            if (distance < 100 && attempts < 3) {
+                // Calculate new position ensuring the button stays within the viewport
+                const maxX = window.innerWidth - buttonRect.width;
+                const maxY = window.innerHeight - buttonRect.height;
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
+                factButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
